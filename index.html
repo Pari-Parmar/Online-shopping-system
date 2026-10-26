@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f6f2">
+  <meta name="description" content="Thoughtful everyday finds, made to be used and loved. Explore the latest from Good Goods.">
+  <title>Good Goods — Shop the good stuff</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #20231f;
+      --muted: #777a71;
+      --paper: #f7f6f2;
+      --white: #fff;
+      --line: #e7e5de;
+      --green: #315d45;
+      --lime: #d9ed9a;
+      --serif: Georgia, "Times New Roman", serif;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    a { color: inherit; text-decoration: none; }
+    .announcement {
+      padding: 10px 20px;
+      background: var(--green);
+      color: white;
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: .12em;
+    }
+    .announcement strong { color: var(--lime); font-weight: 600; }
+    .site-header {
+      height: 76px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 clamp(20px, 5vw, 76px);
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+    }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a, .header-actions button {
+      font-size: 12px;
+      letter-spacing: .04em;
+    }
+    .nav-links a { color: #51554e; }
+    .nav-links a:hover { color: var(--green); }
+    .brand {
+      font-family: var(--serif);
+      font-size: 27px;
+      font-weight: 700;
+      letter-spacing: -.06em;
+    }
+    .brand span { color: var(--green); }
+    .header-actions { justify-self: end; display: flex; gap: 23px; align-items: center; }
+    .header-actions button, .icon-button {
+      border: 0;
+      background: none;
+      padding: 5px;
+      cursor: pointer;
+    }
+    .bag-button { display: flex; align-items: center; gap: 8px; }
+    .bag-count {
+      display: inline-grid;
+      place-items: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--lime);
+      font-size: 10px;
+      font-weight: 700;
+    }
+    main { max-width: 1440px; margin: auto; padding: 0 clamp(20px, 5vw, 76px) 80px; }
+    .hero {
+      min-height: 380px;
+      margin: 28px 0 56px;
+      padding: clamp(34px, 7vw, 88px);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      background: #e8eadc;
+      isolation: isolate;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: 0 0 0 44%;
+      background:
+        linear-gradient(90deg, #e8eadc 0%, rgba(232,234,220,.2) 36%, rgba(232,234,220,0) 65%),
+        url("https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1500&q=85") center 43% / cover;
+    }
+    .hero-copy { max-width: 440px; }
+    .eyebrow { font-size: 10px; letter-spacing: .19em; text-transform: uppercase; color: var(--green); font-weight: 700; }
+    h1 {
+      max-width: 430px;
+      margin: 16px 0 18px;
+      font-family: var(--serif);
+      font-size: clamp(42px, 6vw, 70px);
+      line-height: .99;
+      letter-spacing: -.055em;
+      font-weight: 500;
+    }
+    .hero-copy p { max-width: 310px; margin: 0 0 26px; color: #60635a; font-size: 14px; line-height: 1.7; }
+    .button {
+      display: inline-flex;
+      min-height: 46px;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 0 20px;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: white;
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+    .button:hover { background: transparent; color: var(--ink); }
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    .section-heading h2 {
+      margin: 7px 0 0;
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: clamp(30px, 4vw, 42px);
+      letter-spacing: -.04em;
+    }
+    .section-heading p { margin: 0; color: var(--muted); font-size: 12px; }
+    .toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .filter-button {
+      padding: 9px 16px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: transparent;
+      color: #55584f;
+      font-size: 11px;
+      cursor: pointer;
+      transition: .2s;
+    }
+    .filter-button:hover, .filter-button.active { border-color: var(--green); background: var(--green); color: white; }
+    .search-wrap { position: relative; margin-left: auto; }
+    .search-wrap input {
+      width: 190px;
+      height: 38px;
+      padding: 0 12px 0 34px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      outline: none;
+      background: transparent;
+      font-size: 11px;
+    }
+    .search-wrap input:focus { border-color: var(--green); }
+    .search-icon { position: absolute; top: 10px; left: 12px; color: var(--muted); font-size: 13px; pointer-events: none; }
+    .product-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px 18px; }
+    .product-card { min-width: 0; }
+    .product-image {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4 / 4.7;
+      background: #e9e7df;
+    }
+    .product-image img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .5s cubic-bezier(.2,.65,.3,1);
+    }
+    .product-card:hover .product-image img { transform: scale(1.045); }
+    .badge {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      padding: 7px 9px;
+      background: var(--white);
+      font-size: 9px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .favorite {
+      position: absolute;
+      top: 9px;
+      right: 10px;
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,.9);
+      font-size: 17px;
+      cursor: pointer;
+    }
+    .favorite[aria-pressed="true"] { color: #a54b42; }
+    .quick-add {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      left: 10px;
+      min-height: 39px;
+      border: 0;
+      background: rgba(255,255,255,.94);
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity .2s, transform .2s, background .2s;
+    }
+    .product-card:hover .quick-add, .quick-add:focus-visible { opacity: 1; transform: translateY(0); }
+    .quick-add:hover { background: var(--lime); }
+    .product-meta { display: flex; justify-content: space-between; gap: 10px; padding-top: 12px; font-size: 12px; }
+    .product-name { margin: 0; font-weight: 500; }
+    .product-price { white-space: nowrap; }
+    .product-category { margin: 5px 0 0; color: var(--muted); font-size: 10px; }
+    .no-results { display: none; padding: 48px 12px; text-align: center; color: var(--muted); font-size: 14px; }
+    .values {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 72px;
+      padding: 29px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      text-align: center;
+    }
+    .values strong { display: block; margin-bottom: 7px; font-family: var(--serif); font-size: 19px; font-weight: 500; }
+    .values span { color: var(--muted); font-size: 10px; }
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 28px clamp(20px, 5vw, 76px);
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 10px;
+    }
+    .toast {
+      position: fixed;
+      z-index: 5;
+      right: 22px;
+      bottom: 22px;
+      padding: 14px 20px;
+      background: var(--ink);
+      color: white;
+      font-size: 12px;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity .2s, transform .2s;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    @media (max-width: 760px) {
+      .site-header { height: 66px; grid-template-columns: 1fr auto 1fr; padding: 0 18px; }
+      .nav-links { gap: 12px; }
+      .nav-links a { font-size: 10px; }
+      .nav-links a:nth-child(2) { display: none; }
+      .brand { font-size: 23px; }
+      .header-actions { gap: 8px; }
+      .header-actions button:first-child { display: none; }
+      .hero { min-height: 390px; margin: 18px 0 42px; padding: 30px; align-items: start; }
+      .hero::after { inset: 0; opacity: .38; background-image: linear-gradient(90deg, #e8eadc 0%, rgba(232,234,220,.82) 45%, rgba(232,234,220,.15) 100%), url("https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1000&q=80"); }
+      .hero-copy { position: relative; z-index: 1; }
+      .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 12px; }
+      .quick-add { opacity: 1; transform: none; min-height: 34px; }
+      .toolbar { overflow-x: auto; padding-bottom: 4px; }
+      .filter-button { flex: 0 0 auto; }
+      .search-wrap { display: none; }
+      .values { grid-template-columns: 1fr; gap: 22px; margin-top: 48px; }
+    }
+    @media (max-width: 420px) {
+      .nav-links a:last-child { display: none; }
+      .section-heading { align-items: start; flex-direction: column; gap: 7px; }
+      .product-meta { font-size: 11px; }
+      footer { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="announcement"><strong>GOOD NEWS:</strong> Free shipping on orders over $75</div>
+  <header class="site-header">
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#products">Shop</a>
+      <a href="#values">Our story</a>
+      <a href="#products">New arrivals</a>
+    </nav>
+    <a class="brand" href="#" aria-label="Good Goods home">good<span>goods.</span></a>
+    <div class="header-actions">
+      <button type="button" aria-label="Search products" onclick="document.getElementById('search').focus()">Search</button>
+      <button class="bag-button" type="button" aria-label="Shopping bag, 0 items">Bag <span class="bag-count" aria-live="polite">0</span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <span class="eyebrow">The everyday edit</span>
+        <h1 id="hero-title">A little more good in your day.</h1>
+        <p>Considered pieces for the way you live, made with care and meant to stick around.</p>
+        <a class="button" href="#products">Shop the collection <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <section id="products" aria-labelledby="products-title">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">Made for real life</span>
+          <h2 id="products-title">The good stuff</h2>
+        </div>
+        <p>Thoughtful finds. Everyday favorites.</p>
+      </div>
+      <div class="toolbar" role="group" aria-label="Filter products">
+        <button class="filter-button active" type="button" data-filter="all" aria-pressed="true">All things</button>
+        <button class="filter-button" type="button" data-filter="home" aria-pressed="false">Home</button>
+        <button class="filter-button" type="button" data-filter="wear" aria-pressed="false">Wear</button>
+        <button class="filter-button" type="button" data-filter="living" aria-pressed="false">Living</button>
+        <label class="search-wrap">
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <input id="search" type="search" placeholder="Find your good thing" aria-label="Search products">
+        </label>
+      </div>
+
+      <div class="product-grid" id="product-grid">
+        <article class="product-card" data-category="home" data-name="Sunday ceramic mug">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=800&q=80" alt="Handmade ceramic mugs in warm neutral tones" loading="lazy">
+            <span class="badge">Bestseller</span>
+            <button class="favorite" type="button" aria-label="Add Sunday ceramic mug to favorites" aria-pressed="false">♡</button>
+            <button class="quick-add" type="button">Add to bag</button>
+          </div>
+          <div class="product-meta"><h3 class="product-name">Sunday ceramic mug</h3><span class="product-price">$28</span></div>
+          <p class="product-category">Home · Handmade stoneware</p>
+        </article>
+        <article class="product-card" data-category="wear" data-name="Everywhere tote">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=800&q=80" alt="Natural canvas tote bag with sturdy handles" loading="lazy">
+            <span class="badge">Just in</span>
+            <button class="favorite" type="button" aria-label="Add Everywhere tote to favorites" aria-pressed="false">♡</button>
+            <button class="quick-add" type="button">Add to bag</button>
+          </div>
+          <div class="product-meta"><h3 class="product-name">Everywhere tote</h3><span class="product-price">$42</span></div>
+          <p class="product-category">Wear · Recycled cotton</p>
+        </article>
+        <article class="product-card" data-category="living" data-name="Slow morning candle">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=800&q=80" alt="A softly glowing candle in a simple glass jar" loading="lazy">
+            <button class="favorite" type="button" aria-label="Add Slow morning candle to favorites" aria-pressed="false">♡</button>
+            <button class="quick-add" type="button">Add to bag</button>
+          </div>
+          <div class="product-meta"><h3 class="product-name">Slow morning candle</h3><span class="product-price">$34</span></div>
+          <p class="product-category">Living · Soy wax, 45 hours</p>
+        </article>
+        <article class="product-card" data-category="home" data-name="Sunday linen throw">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80" alt="Soft linen throw draped over a comfortable chair" loading="lazy">
+            <span class="badge">A good gift</span>
+            <button class="favorite" type="button" aria-label="Add Sunday linen throw to favorites" aria-pressed="false">♡</button>
+            <button class="quick-add" type="button">Add to bag</button>
+          </div>
+          <div class="product-meta"><h3 class="product-name">Sunday linen throw</h3><span class="product-price">$86</span></div>
+          <p class="product-category">Home · 100% European linen</p>
+        </article>
+      </div>
+      <p class="no-results" id="no-results">Nothing here just yet. Try another search.</p>
+    </section>
+
+    <section class="values" id="values" aria-label="Our values">
+      <div><strong>Made with intention</strong><span>Good materials, thoughtful details.</span></div>
+      <div><strong>Better by design</strong><span>Less waste. More lasting favorites.</span></div>
+      <div><strong>A little goes a long way</strong><span>1% of every order supports our planet.</span></div>
+    </section>
+  </main>
+
+  <footer><span>© 2025 Good Goods. Made for the everyday.</span><span>Free shipping over $75 · Thoughtfully packed</span></footer>
+  <div class="toast" role="status" aria-live="polite"></div>
+  <script>
+    const filterButtons = document.querySelectorAll(".filter-button");
+    const productCards = document.querySelectorAll(".product-card");
+    const searchInput = document.getElementById("search");
+    const noResults = document.getElementById("no-results");
+    const bagCount = document.querySelector(".bag-count");
+    const bagButton = document.querySelector(".bag-button");
+    const toast = document.querySelector(".toast");
+    let activeFilter = "all";
+    let itemCount = 0;
+    let toastTimer;
+
+    function updateProducts() {
+      const query = searchInput.value.trim().toLowerCase();
+      let visibleCount = 0;
+      productCards.forEach((card) => {
+        const matchesCategory = activeFilter === "all" || card.dataset.category === activeFilter;
+        const matchesQuery = card.dataset.name.includes(query);
+        const visible = matchesCategory && matchesQuery;
+        card.hidden = !visible;
+        if (visible) visibleCount += 1;
+      });
+      noResults.style.display = visibleCount ? "none" : "block";
+    }
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        activeFilter = button.dataset.filter;
+        filterButtons.forEach((filter) => {
+          const selected = filter === button;
+          filter.classList.toggle("active", selected);
+          filter.setAttribute("aria-pressed", String(selected));
+        });
+        updateProducts();
+      });
+    });
+
+    searchInput.addEventListener("input", updateProducts);
+    document.querySelectorAll(".favorite").forEach((button) => {
+      button.addEventListener("click", () => {
+        const selected = button.getAttribute("aria-pressed") !== "true";
+        button.setAttribute("aria-pressed", String(selected));
+        button.textContent = selected ? "♥" : "♡";
+      });
+    });
+
+    document.querySelectorAll(".quick-add").forEach((button) => {
+      button.addEventListener("click", () => {
+        itemCount += 1;
+        bagCount.textContent = String(itemCount);
+        bagButton.setAttribute("aria-label", `Shopping bag, ${itemCount} ${itemCount === 1 ? "item" : "items"}`);
+        toast.textContent = `${button.closest(".product-card").dataset.name} added to your bag`;
+        toast.classList.add("show");
+        window.clearTimeout(toastTimer);
+        toastTimer = window.setTimeout(() => toast.classList.remove("show"), 2200);
+      });
+    });
+  </script>
+</body>
+</html>
